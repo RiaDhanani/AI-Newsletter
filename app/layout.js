@@ -8,7 +8,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="newsprint-texture">{children}</body>
+      <body className="newsprint-texture" suppressHydrationWarning>{children}</body>
     </html>
   );
 }
