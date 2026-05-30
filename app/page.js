@@ -1,4 +1,4 @@
-import ClientPage from './ClientPage'
+import ClientPage from './components/ClientPage'
 
 export default function Home() {
   const today = new Date().toLocaleDateString('en-US', {
