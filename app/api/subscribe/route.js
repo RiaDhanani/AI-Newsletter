@@ -1,8 +1,4 @@
 import { NextResponse } from 'next/server'
-import supabase from '@/lib/supabase'
-import { Resend } from 'resend'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request) {
     const { email } = await request.json()
@@ -11,26 +7,25 @@ export async function POST(request) {
         return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
     }
 
-    const { error } = await supabase
-        .from('subscribers')
-        .insert({ email })
+    const res = await fetch(
+        `https://api.beehiiv.com/v2/publications/${process.env.BEEHIIV_PUBLICATION_ID}/subscriptions`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${process.env.BEEHIIV_API_KEY}`,
+            },
+            body: JSON.stringify({
+                email,
+                reactivate_existing: true,
+                send_welcome_email: true,
+            }),
+        }
+    )
 
-    if (error && error.code !== '23505') {
-        return NextResponse.json({ error: 'Could not save email' }, { status: 500 })
+    if (!res.ok) {
+        return NextResponse.json({ error: 'Could not subscribe' }, { status: 500 })
     }
-
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    const unsubscribeUrl = `${baseUrl}/api/unsubscribe?email=${encodeURIComponent(email)}`
-
-    await resend.emails.send({
-        from: 'onboarding@resend.dev',
-        to: email,
-        subject: 'You\'re subscribed to The Signal',
-        html: `<p>Welcome! You'll receive The Signal every Monday and Friday.</p>
-<p style="margin-top:2rem;font-size:12px;color:#888;">
-  Don't want these emails? <a href="${unsubscribeUrl}">Unsubscribe</a>
-</p>`
-    })
 
     return NextResponse.json({ success: true })
 }
