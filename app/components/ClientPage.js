@@ -271,7 +271,6 @@ export default function ClientPage({ today, year }) {
                   </div>
                 </form>
                 {status === 'error' && <p className="msg-err">Something went wrong. Try again.</p>}
-                <p className="fine"> Unsubscribe anytime</p>
               </>
             )}
           </div>

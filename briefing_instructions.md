@@ -188,6 +188,6 @@ Six short bullets focused on new products and tools. 1-2 sentences each with a d
 - [ ] Podcast episode durations verified from Apple Podcasts or Spotify
 - [ ] Quick Shots are all tools or products, sources verified
 - [ ] Zero em dashes in the output
-- [ ] Zero `{{}}` placeholders remaining (including `{{UNSUBSCRIBE_URL}}` -- set to `https://the-signal.vercel.app/api/unsubscribe?email=SUBSCRIBER_EMAIL` per recipient)
+- [ ] Zero `{{}}` placeholders remaining
 - [ ] `wiki/log.md` updated with today's issue summary
 - [ ] Filename: `YYYY-MM-DD_the_signal.html`
