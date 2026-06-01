@@ -1,29 +1,6 @@
-'use client'
-import { useState } from 'react'
+import BeehiivEmbed from './BeehiivEmbed'
 
 export default function ClientPage({ today, year }) {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-    setIsLoading(true)
-    try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      })
-      const data = await res.json()
-      setStatus(data.success ? 'subscribed' : 'error')
-    } catch {
-      setStatus('error')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   return (
     <>
       {/* MASTHEAD */}
@@ -251,28 +228,7 @@ export default function ClientPage({ today, year }) {
             </div>
           </div>
           <div>
-            {status === 'subscribed' ? (
-              <p className="msg-ok">Subscribed. Check your inbox for a confirmation.</p>
-            ) : (
-              <>
-                <form onSubmit={handleSubmit}>
-                  <div className="form-row">
-                    <input
-                      className="email-in"
-                      type="email"
-                      placeholder="your@email.com"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      required
-                    />
-                    <button className="sub-btn" type="submit" disabled={isLoading}>
-                      {isLoading ? '...' : 'Subscribe'}
-                    </button>
-                  </div>
-                </form>
-                {status === 'error' && <p className="msg-err">Something went wrong. Try again.</p>}
-              </>
-            )}
+            <BeehiivEmbed />
           </div>
         </div>
       </div>
